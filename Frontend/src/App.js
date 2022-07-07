@@ -1,14 +1,14 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import "./App.scss";
-import Home from "./components/pages/Home";
+import LandingPage from "./components/pages/LandingPage";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import SignUp from "./components/pages/SignUp";
+import Home from "./components/pages/Home";
 import LikedRecipes from "./components/pages/LikedRecipes";
 import Recommended from "./components/pages/Recommended";
 
@@ -19,12 +19,12 @@ function App() {
         <Navbar />
         <Switch>
           <Route exact path="/">
-            <Redirect from="/" to="/home" />
+            <Redirect from="/" to="/landing" />
           </Route>
-          <Route path="/home" exact component={Home} />
+          <Route path="/landing" exact component={LandingPage} />
           <Route path="/liked" component={LikedRecipes} />
           <Route path="/recommended" component={Recommended} />
-          <Route path="/sign-up" component={SignUp} />
+          <Route path="/home" component={Home} />
         </Switch>
       </Router>
     </>

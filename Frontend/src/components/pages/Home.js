@@ -1,15 +1,6 @@
 import React from "react";
 import "../../App.scss";
-import HeroSection from "../HeroSection";
-import Footer from "../Footer";
 
-function Home() {
-  return (
-    <>
-      <HeroSection />
-      <Footer />
-    </>
-  );
+export default function Home() {
+  return <h1 className="sign-up">LIKE & SUBSCRIBE</h1>;
 }
-
-export default Home;

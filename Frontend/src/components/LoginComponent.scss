@@ -1,0 +1,58 @@
+@use '../my-sass.scss';
+
+input[type="text"] {
+	height: 25px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+input[type="password"] {
+	height: 25px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+}
+button[type="submit"] {
+	margin-top: 10px;
+	cursor: pointer;
+	font-size: 15px;
+	background: my-sass.$color-green-darker;
+	border: 1px solid #01d28e;
+	color: #fff;
+	padding: 10px 20px;
+}
+input[type="submit"] {
+	&:hover {
+		background: #6cf0c2;
+	}
+}
+
+.logo-login{
+  margin-bottom: 20px;
+  width: 100px;
+  
+}
+
+.button-container {
+	display: flex;
+	justify-content: center;
+}
+.login-form {
+	background-color: my-sass.$color-gray-light;
+	padding: 2rem;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.list-container {
+	display: flex;
+}
+.error {
+	color: red;
+	font-size: 12px;
+}
+.title {
+	font-size: 25px;
+	margin-bottom: 20px;
+}
+.input-container {
+	display: flex;
+  width: 250px;
+	flex-direction: column;
+	gap: 8px;
+	margin: 10px;
+}

@@ -1,6 +1,13 @@
 import React from "react";
 import "../../App.scss";
+import RecommendedFoods from "../RecommendedFoods";
+import Footer from "../Footer";
 
 export default function Recommended() {
-  return <h1 className="products">RECOMMENDED FOODS</h1>;
+  return (
+    <>
+      <RecommendedFoods />
+      <Footer />
+    </>
+  );
 }

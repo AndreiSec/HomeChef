@@ -1,12 +1,24 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { useHistory } from "react-router-dom";
 import "react-tabs/style/react-tabs.css";
 import "./LoginComponent.scss";
 
-const LoginComponent = () => {
+const LoginComponent = (props) => {
   const [errorMessages, setErrorMessages] = React.useState({});
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
-  const [tabIndex, setTabIndex] = React.useState(0);
+
+  const setToken = props.setToken;
+
+  const token = "logged_in";
+
+  const history = useHistory();
+
+  const login = () => {
+    setToken(token);
+    let path = `/home`;
+    history.push(path);
+    window.location.reload(true);
+  };
 
   // Generate JSX code for error message
   const renderErrorMessage = (name) =>
@@ -30,41 +42,39 @@ const LoginComponent = () => {
         <TabPanel>
           <div className="form">
             <p>Login</p>
-            <form>
-              <div className="input-container">
-                <label>Username </label>
-                <input type="text" name="uname" required />
-                {renderErrorMessage("uname")}
-              </div>
-              <div className="input-container">
-                <label>Password </label>
-                <input type="password" name="pass" required />
-                {renderErrorMessage("pass")}
-              </div>
-              <div className="button-container">
-                <button type="submit">Login</button>
-              </div>
-            </form>
+            <div className="input-container">
+              <label>Username </label>
+              <input type="text" name="uname" required />
+              {renderErrorMessage("uname")}
+            </div>
+            <div className="input-container">
+              <label>Password </label>
+              <input type="password" name="pass" required />
+              {renderErrorMessage("pass")}
+            </div>
+            <div className="button-container">
+              <button onClick={login} type="submit">
+                Login
+              </button>
+            </div>
           </div>
         </TabPanel>
         <TabPanel>
           <div className="form">
             <p>Login</p>
-            <form>
-              <div className="input-container">
-                <label>Username </label>
-                <input type="text" name="uname" required />
-                {renderErrorMessage("uname")}
-              </div>
-              <div className="input-container">
-                <label>Password </label>
-                <input type="password" name="pass" required />
-                {renderErrorMessage("pass")}
-              </div>
-              <div className="button-container">
-                <button type="submit">Sign-Up</button>
-              </div>
-            </form>
+            <div className="input-container">
+              <label>Username </label>
+              <input type="text" name="uname" required />
+              {renderErrorMessage("uname")}
+            </div>
+            <div className="input-container">
+              <label>Password </label>
+              <input type="password" name="pass" required />
+              {renderErrorMessage("pass")}
+            </div>
+            <div className="button-container">
+              <button type="submit">Sign-Up</button>
+            </div>
           </div>
         </TabPanel>
       </Tabs>

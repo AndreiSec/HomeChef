@@ -19,6 +19,13 @@
 	max-width: 1500px;
 }
 
+.centered {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
 
 .navbar-logo {
 	color: my-sass.$color-gray-light;

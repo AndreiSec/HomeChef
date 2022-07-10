@@ -3,10 +3,10 @@ import "../../App.scss";
 import MainLanding from "../MainLanding";
 import Footer from "../Footer";
 
-function LandingPage() {
+function LandingPage(props) {
   return (
     <>
-      <MainLanding />
+      <MainLanding setToken={props.setToken} />
       <Footer />
     </>
   );

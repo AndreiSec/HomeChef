@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import LoginComponent from "./LoginComponent";
 import "./MainLanding.css";
 
-function MainLanding() {
+function MainLanding(props) {
   const customStyles = {
     content: {
       top: "50%",
@@ -64,7 +64,7 @@ function MainLanding() {
         style={customStyles}
         contentLabel="Login Modal"
       >
-        <LoginComponent />
+        <LoginComponent setToken={props.setToken} />
       </Modal>
     </div>
   );

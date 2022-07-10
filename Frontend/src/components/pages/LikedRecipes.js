@@ -1,6 +1,13 @@
 import React from "react";
 import "../../App.scss";
+import LikedFoods from "../LikedFoods";
+import Footer from "../Footer";
 
 export default function LikedRecipes() {
-  return <h1 className="services">LIKED RECIPES</h1>;
+  return (
+    <>
+      <LikedFoods />
+      <Footer />
+    </>
+  );
 }

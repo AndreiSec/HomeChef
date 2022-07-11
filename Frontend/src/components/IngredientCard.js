@@ -2,36 +2,47 @@ import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import "./IngredientCard.scss";
+import { Button } from "./Button";
+import { IngredientButton } from "./IngredientButton";
 
 const IngredientCard = (props) => {
   const title = props.title;
   const ingredients = props.ingredients || [];
   const selectedIngredients = props.selectedIngredients;
-  const setSelectedIngredients = props.selectedIngredients;
+  const setSelectedIngredients = props.setSelectedIngredients;
+
+  const addOrRemoveSelectedIngredient = (e) => {
+    const ingredient = e.target.innerHTML;
+
+    if (!selectedIngredients.includes(ingredient)) {
+      // const newSelectedIngredients = selectedIngredients;
+      // newSelectedIngredients.push(ingredient);
+      setSelectedIngredients((selectedIngredients) => [
+        ...selectedIngredients,
+        ingredient,
+      ]);
+    } else {
+      const newSelectedIngredients = selectedIngredients.filter(
+        (item) => item !== ingredient
+      );
+      setSelectedIngredients(newSelectedIngredients);
+    }
+  };
 
   const renderIngredient = () => {
     return ingredients.map((ingredient) => (
-      <div className="ingredient_text">
-        <Button
-          size="medium"
-          variant="outlined"
-          style={{
-            color: "#F3F3F3",
-            borderRadius: 13,
-            backgroundColor: "#00B833",
-          }}
-        >
-          {ingredient}
-        </Button>
-      </div>
+      <IngredientButton
+        ingredient={ingredient}
+        key={ingredient}
+        addOrRemoveSelectedIngredient={addOrRemoveSelectedIngredient}
+      />
     ));
   };
 
   return (
-    <Card className="ingredient_card">
+    <Card key={title} className="ingredient_card">
       <CardContent>
         <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
           {title}

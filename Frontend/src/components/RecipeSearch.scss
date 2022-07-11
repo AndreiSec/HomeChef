@@ -13,6 +13,8 @@ h1 {
 	max-width: 1120px;
 	width: 75%;
 	margin: 0 auto;
+	overflow: scroll;
+	max-height: 700pt;
 }
 .ingredients_select_container{
   left: 0;
@@ -112,4 +114,8 @@ h1 {
 	.cards__item {
 		margin-bottom: 2rem;
 	}
+}
+
+.spacing{
+	margin-bottom: 40px;
 }

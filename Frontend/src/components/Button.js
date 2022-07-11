@@ -53,7 +53,7 @@ export const Button = ({
       ) : (
         <button
           className={`btn ${checkButtonStyle} ${checkButtonSize}`}
-          onClick={onClick}
+          onClick={(e) => onClick(e)}
           type={type}
         >
           {children}

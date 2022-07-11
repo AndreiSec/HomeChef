@@ -21,3 +21,17 @@ input[type="text"] {
 .ingredient_text{
     width: 33%;
 }
+
+.ingredient_button{
+    padding: 8px 20px;
+	border-radius: 10px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+    margin: 3px;
+}
+
+
+.selected {
+    background-color: my-sass.$color-green-logo;
+}

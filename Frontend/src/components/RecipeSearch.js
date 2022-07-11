@@ -80,7 +80,7 @@ function RecipeSearch() {
         src={recipe.image_url}
         text={recipe.label}
         label={recipe?.dietLabels ? recipe.dietLabels[0] : "High-Protein"}
-        path={recipe?.url ? recipe.url : "pornhub.com"}
+        path={recipe?.url ? recipe.url : "google.com"}
       />
     ));
   };

@@ -39,11 +39,11 @@ def get_ingredients():
         ]
     )
 
-    n = 0
+    # n = 0
 
-    for ingredient in ingredients:
-        n += hash(ingredient['_id'])
-    print(n)
+    # for ingredient in ingredients:
+    #     n += hash(ingredient['_id'])
+    # print(n)
 
     blacklisted_category = {"0",
                             "beer", "bov", "cocktails and liquors",

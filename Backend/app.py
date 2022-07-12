@@ -16,27 +16,46 @@ db = client.HomeChef
 myCollection = db.Recipes_Updated
 
 def get_ingredients():
-    ingredients = myCollection.aggregate(
-        [
-            {
-                "$unwind": "$recipe.ingredients"},
+    # ingredients = myCollection.aggregate(
+    #     [
+
+    #         {
+    #             "$unwind": "$recipe.ingredients"
+    #         },
 
 
-            {
-                "$group": {
-                    "_id": "$recipe.ingredients.food",
-                    "category": {"$first": '$recipe.ingredients.foodCategory'}
-                }
-            },
+    #         {
+    #             "$group": {
+    #                 "_id": "$recipe.ingredients.food",
+    #                 "category": {"$first": '$recipe.ingredients.foodCategory'}
+    #             }
+    #         },
 
-        ]
-    )
+    #         {
+    #             "$project" : {
+    #                 "_id" : "$_id",
+    #                 "name" : "$_id",
+    #                 "category" : "$category",
+
+    #             }
+    #         },
+
+    #     ]
+    # )
+
+    ingredients = list(myCollection.distinct("recipe.ingredients.food"))
+    # ingredients.sort(key=lambda x: x)
+
+    # print("ingredients ", ingredients)
 
     # n = 0
 
     # for ingredient in ingredients:
-    #     n += hash(ingredient['_id'])
+    #     n += hash(ingredient['name'])
     # print(n)
+
+    # for ingredient in ingredients:
+    #     print(ingredient)
 
     blacklisted_category = {"0",
                             "beer", "bov", "cocktails and liquors",
@@ -49,17 +68,30 @@ def get_ingredients():
 
     for ingredient in ingredients:
         try:
-            category = ingredient["category"].lower()
+            ingredient_name = ingredient.lower()
+            # print("NAME: " + ingredient_name)
 
-            ingredient_name = ingredient["_id"].lower()
+            match = myCollection.find_one({"recipe.ingredients.food" : ingredient_name} ,
+            { "_id": 0, 'category': {"$first" : "$recipe.ingredients.foodCategory"} }
+            )
 
+            # print(match)
+
+            category = match["category"]
+            
+            # print("-----------------")
+            # print(ingredient_name + "  " + category)
+            # print("-----------------")
+
+        
             if category not in classified_ingredients and category not in blacklisted_category:
                 classified_ingredients[category] = []
 
             if ingredient_name not in ingredients_met and len(classified_ingredients[category]) < 20:
                 classified_ingredients[category].append(ingredient_name)
                 ingredients_met[ingredient_name] = 1
-        except:
+        except Exception as e:
+            # print(e)
             continue
 
     classified_ingredients_list = []

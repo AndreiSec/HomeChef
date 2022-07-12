@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import traceback
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from bing_image_urls import bing_image_urls
 import subprocess as sp
 from pymongo import MongoClient
@@ -10,6 +10,8 @@ import certifi
 app = Flask("myapp")
 
 CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 client = MongoClient(mongopass, tlsCAFile=certifi.where())
@@ -127,6 +129,7 @@ def get_ingredients():
 
 
 @app.route("/getRecipes", methods=['POST'])
+@cross_origin()
 def getRecipes():
     try:
 
@@ -155,10 +158,11 @@ def getRecipes():
 
 
 @ app.route('/ingredients', methods=['GET'])
+@cross_origin()
 def ingredients():
     try:
         response = jsonify({'ingredient_info': get_ingredients()})
-        response.headers.add('Access-Control-Allow-Origin', '*')
+        # response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
     except Exception as e:

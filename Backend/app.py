@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from bing_image_urls import bing_image_urls
 import subprocess as sp
-from itsdangerous import json
 from pymongo import MongoClient
 from mongopass import mongopass
 import certifi
@@ -15,12 +14,6 @@ CORS(app)
 client = MongoClient(mongopass, tlsCAFile=certifi.where())
 db = client.HomeChef
 myCollection = db.Recipes_Updated
-
-
-f = open("api_key.txt", "r")
-api_key = f.read()
-f.close()
-
 
 def get_ingredients():
     ingredients = myCollection.aggregate(

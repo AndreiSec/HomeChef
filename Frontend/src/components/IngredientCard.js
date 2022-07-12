@@ -13,6 +13,8 @@ const IngredientCard = (props) => {
   const selectedIngredients = props.selectedIngredients;
   const setSelectedIngredients = props.setSelectedIngredients;
 
+  const buttonClass = props.buttonClass;
+
   const addOrRemoveSelectedIngredient = (e) => {
     const ingredient = e.target.innerHTML;
 
@@ -35,6 +37,7 @@ const IngredientCard = (props) => {
     return ingredients.map((ingredient) => (
       <IngredientButton
         ingredient={ingredient}
+        buttonClass={buttonClass}
         key={ingredient}
         addOrRemoveSelectedIngredient={addOrRemoveSelectedIngredient}
       />
@@ -49,9 +52,6 @@ const IngredientCard = (props) => {
         </Typography>
         <div className="ingredients_container">{renderIngredient()}</div>
       </CardContent>
-      <CardActions>
-        <Button size="small">Remove Selections</Button>
-      </CardActions>
     </Card>
   );
 };

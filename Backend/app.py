@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify
+import traceback
 from flask_cors import CORS
 from bing_image_urls import bing_image_urls
 import subprocess as sp
@@ -15,35 +16,43 @@ client = MongoClient(mongopass, tlsCAFile=certifi.where())
 db = client.HomeChef
 myCollection = db.Recipes_Updated
 
+
 def get_ingredients():
-    # ingredients = myCollection.aggregate(
-    #     [
+    ingredients = myCollection.aggregate(
+        [
 
-    #         {
-    #             "$unwind": "$recipe.ingredients"
-    #         },
+            {
+                "$unwind": "$recipe.ingredients"
+            },
 
+            {
+                "$group": {
+                    "_id": "$recipe.ingredients.food",
+                    "category": {"$first": '$recipe.ingredients.foodCategory'}
+                }
+            },
 
-    #         {
-    #             "$group": {
-    #                 "_id": "$recipe.ingredients.food",
-    #                 "category": {"$first": '$recipe.ingredients.foodCategory'}
-    #             }
-    #         },
+            {
+                "$project": {
+                    "name": "$_id",
+                    "category": "$category",
 
-    #         {
-    #             "$project" : {
-    #                 "_id" : "$_id",
-    #                 "name" : "$_id",
-    #                 "category" : "$category",
+                }
+            },
 
-    #             }
-    #         },
+        ]
+    )
 
-    #     ]
-    # )
+    # print(len(list(ingredients)))
 
-    ingredients = list(myCollection.distinct("recipe.ingredients.food"))
+    ingredients_list = list(ingredients)
+
+    ingredients_list.sort(key=lambda x: x['name'])
+
+    # ingredients_distinct = myCollection.distinct("recipe.ingredients.food")
+
+    # print(len(list(ingredients_distinct)))
+
     # ingredients.sort(key=lambda x: x)
 
     # print("ingredients ", ingredients)
@@ -54,8 +63,13 @@ def get_ingredients():
     #     n += hash(ingredient['name'])
     # print(n)
 
-    # for ingredient in ingredients:
-    #     print(ingredient)
+    # f = open("output.txt", "a+")
+
+    # for ingredient in ingredients_list:
+    #     f.write(str(ingredient['name']))
+    #     f.write('\n')
+
+    # f.close()
 
     blacklisted_category = {"0",
                             "beer", "bov", "cocktails and liquors",
@@ -66,28 +80,26 @@ def get_ingredients():
     classified_ingredients = {}
     ingredients_met = {}
 
-    for ingredient in ingredients:
+    for ingredient in ingredients_list:
         try:
-            ingredient_name = ingredient.lower()
+            ingredient_name = ingredient['name'].lower()
             # print("NAME: " + ingredient_name)
 
-            match = myCollection.find_one({"recipe.ingredients.food" : ingredient_name} ,
-            { "_id": 0, 'category': {"$first" : "$recipe.ingredients.foodCategory"} }
-            )
+            # match = myCollection.find_one(
+            #     {"recipe.ingredients.food": ingredient_name}, {'recipe.ingredients.foodCategory': 1})
 
             # print(match)
 
-            category = match["category"]
-            
+            category = ingredient["category"].lower()
+
             # print("-----------------")
-            # print(ingredient_name + "  " + category)
+            # print("category " + category)
             # print("-----------------")
 
-        
             if category not in classified_ingredients and category not in blacklisted_category:
                 classified_ingredients[category] = []
 
-            if ingredient_name not in ingredients_met and len(classified_ingredients[category]) < 20:
+            if ingredient_name not in ingredients_met:
                 classified_ingredients[category].append(ingredient_name)
                 ingredients_met[ingredient_name] = 1
         except Exception as e:
@@ -98,6 +110,7 @@ def get_ingredients():
 
     for category in classified_ingredients.keys():
         ingredients = classified_ingredients[category]
+        # print(category)
 
         ingredients.sort(key=lambda x: x)
 
@@ -105,6 +118,8 @@ def get_ingredients():
         new_obj['category'] = category
         new_obj['foods'] = ingredients
         classified_ingredients_list.append(new_obj)
+
+    # print(classified_ingredients_list)
 
     classified_ingredients_list.sort(key=lambda x: x['category'])
 
@@ -135,6 +150,7 @@ def getRecipes():
         return(jsonify({"success": 'true', 'recipe_objects': label}))
 
     except Exception as e:
+        print(traceback.format_exc())
         return {"success": 'false', "message": str(e)}
 
 
@@ -146,4 +162,5 @@ def ingredients():
         return response
 
     except Exception as e:
+        print(traceback.format_exc())
         return {"success": 'false', "message": str(e)}

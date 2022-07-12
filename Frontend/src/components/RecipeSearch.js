@@ -29,10 +29,12 @@ function RecipeSearch() {
     if (searchedIngredientsObject === []) {
       return null;
     }
+    console.log("F");
 
     return searchedIngredientsObject.map((ingredient) => (
       <IngredientCard
         title={ingredient.category}
+        buttonClass="ingredient_button"
         key={"key " + ingredient.category}
         ingredients={ingredient.foods}
         selectedIngredients={selectedIngredients}
@@ -41,8 +43,21 @@ function RecipeSearch() {
     ));
   };
 
+  useEffect(() => {
+    if (selectedIngredients.length === 0) {
+      console.log("DDD");
+    }
+  }, [selectedIngredients]);
+
   const searchChange = (e) => {
     const searchTerm = e.target.value;
+
+    if (searchTerm === "") {
+      console.log("RESETTING SEARCHED OBJECTS");
+      setSearchedIngredientsObject(ingredientsObject);
+      return;
+    }
+
     let updatedIngredientsObjects = ingredientsObject.filter((x) => {
       const ingredientMatched = x.foods.some((f) => {
         return f.toLowerCase().includes(searchTerm.toLowerCase());
@@ -51,14 +66,18 @@ function RecipeSearch() {
       return ingredientMatched;
     });
 
-    for (let i = 0; i < updatedIngredientsObjects.length; i++) {
-      let ingredientCategory = updatedIngredientsObjects[i].foods;
+    updatedIngredientsObjects = JSON.parse(
+      JSON.stringify(updatedIngredientsObjects)
+    );
 
-      ingredientCategory = ingredientCategory.filter((item) =>
+    for (let i = 0; i < updatedIngredientsObjects.length; i++) {
+      let category_foods = updatedIngredientsObjects[i].foods;
+
+      category_foods = category_foods.filter((item) =>
         item.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
-      updatedIngredientsObjects[i].foods = ingredientCategory;
+      updatedIngredientsObjects[i].foods = category_foods;
     }
 
     // updatedIngredientsObjects.forEach((x) => {
@@ -123,9 +142,17 @@ function RecipeSearch() {
     setRecipes(recipes_grouped);
   };
 
+  const resetSelection = () => {
+    setSelectedIngredients([]);
+  };
+
   useEffect(() => {
     getIngredients();
   }, []);
+
+  // useEffect(() => {
+  //   console.log("INGREDIENTS UPDATED: ", searchedIngredientsObject);
+  // }, [searchedIngredientsObject]);
 
   return (
     <div className="cards">
@@ -142,6 +169,12 @@ function RecipeSearch() {
       <div className="top_container">
         <div className="ingredients_select_container">
           <div className="search">
+            <button
+              className="remove-selections-button"
+              onClick={resetSelection}
+            >
+              Remove Selections
+            </button>
             <TextField
               id="outlined-basic"
               variant="outlined"

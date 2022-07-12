@@ -1,3 +1,6 @@
+@use '../my-sass.scss';
+
+
 .cards {
 	padding: 4rem;
 	background: #fff;
@@ -118,4 +121,21 @@ h1 {
 
 .spacing{
 	margin-bottom: 40px;
+}
+
+
+.remove-selections-button{
+    padding: 8px 20px;
+	background-color: my-sass.$color-green-logo;
+	border-radius: 10px;
+	outline: none;
+	border: none;
+	cursor: pointer;
+    margin-bottom: 15px;
+	&:hover {
+		transition: all 0.3s ease-out;
+		background: my-sass.$color-green-dark;
+		color: #242424;
+		transition: 250ms;
+	}
 }

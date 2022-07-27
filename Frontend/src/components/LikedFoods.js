@@ -1,5 +1,5 @@
 import React from "react";
-import "./LikedRecommended.scss";
+import "./LikedFoods.scss";
 import CardItem from "./CardItem";
 
 function LikedFoods() {

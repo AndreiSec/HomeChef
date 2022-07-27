@@ -14,9 +14,15 @@ import React from "react";
 import "./Button.scss";
 import { Link } from "react-router-dom";
 
-const STYLES = ["btn--primary", "btn--outline", "btn--test", "btn--gray"];
+const STYLES = [
+  "btn--primary",
+  "btn--outline",
+  "btn--test",
+  "btn--gray",
+  "btn--green",
+];
 
-const SIZES = ["btn--medium", "btn--large"];
+const SIZES = ["btn--medium", "btn--large", "btn--large--dark--green"];
 
 export const Button = ({
   children,
@@ -47,7 +53,7 @@ export const Button = ({
       ) : (
         <button
           className={`btn ${checkButtonStyle} ${checkButtonSize}`}
-          onClick={onClick}
+          onClick={(e) => onClick(e)}
           type={type}
         >
           {children}
